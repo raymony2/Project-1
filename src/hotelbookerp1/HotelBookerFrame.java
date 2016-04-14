@@ -45,15 +45,11 @@ public class HotelBookerFrame extends JFrame {
         setSouthPanel();
         setRadioPanel();
         radioButtonPanel.add(southPanel);
+        add(radioButtonPanel, BorderLayout.SOUTH);       
+         
         
-        //southPanel.add(radioButtonPanel);
-        add(radioButtonPanel, BorderLayout.SOUTH);
-        
-        
-        setCenterPanel(today);
-        
-        
-        
+        setCenterPanel();
+                        
         
         
     }
@@ -75,14 +71,51 @@ public class HotelBookerFrame extends JFrame {
             public void actionPerformed(ActionEvent event) {          
                 int monthIndex = monthComboBox.getSelectedIndex();
                 String monthString = monthIndex + "";
-                monthShort = Short.parseShort(monthString);
+                short monthShort = Short.parseShort(monthString);
                 today.setMonth(monthShort);
-                setCenterPanel(today);
+                setCenterPanel();
             }
-    }
-        
+    }        
         monthComboBox.addActionListener(new changeStatusListener());
-    }             
+    }                 
+    
+//Creates the initial and updated calendars
+    public void setCenterPanel() {
+        if (centerPanel != null) {
+            getContentPane().remove(centerPanel);  
+        }
+        centerPanel = new JPanel();
+        centerPanel.setLayout(new GridLayout(6,7));
+        calendar = new BasicCalendar(today.getMonth(), today.getYear());
+        int daysInMonth = today.daysInMonth(today.getMonth(), today.getYear());
+        int index = 0;
+        //This loop finds the index for the grid calendar's 
+        //first day
+        for (int i = 0; i <= 6; i++) {
+            if (calendar.at(0,i) == 1) {
+                index = i;
+                break;
+            }
+        }
+        //Creates the calendar based on today's date.
+        //Lays out the empty buttons and the buttons
+        //with text at the same time
+        for (int i = 0; i < daysInACalendar; i++) {
+            JButton calendarButton = new JButton();
+            calendarButton.setForeground(Color.BLUE);
+            if (i >= index && i < daysInMonth + index) {
+                calendarButton = new JButton("" + (i - index + 1));
+            }
+            centerPanel.add(calendarButton);   
+        }
+        add(centerPanel, BorderLayout.CENTER);
+        //this refreshes the changes to the frame
+        //after I remove centerPanel, build a new one,
+        //and add it to the Frame
+        invalidate();
+        validate();
+       
+    }
     
     public void setSouthPanel() {
         southPanel = new JPanel();
@@ -92,6 +125,22 @@ public class HotelBookerFrame extends JFrame {
         nameLabel = new JLabel(enterName);
         southPanel.add(nameLabel);
         southPanel.add(nameTextField);
+    }
+    //makes radio buttons and their action listeners
+    public void setRadioPanel() {
+        radioButtonPanel = new JPanel();
+        radioButtonPanel.setLayout(new FlowLayout());
+        radioArray = new JRadioButton[2];
+         for(int i = 0; i < 2; i++)
+             radioArray[i] = new JRadioButton();
+         radioArray[0].setText("Start Date: " + today.toString());
+         radioArray[0].setSelected(true);
+         radioArray[1].setText("End Date: " + today.toString());
+         group = new ButtonGroup();
+         for(int i = 0; i < 2; i++)  {
+            group.add(radioArray[i]);
+            radioButtonPanel.add(radioArray[i]);
+        }
     }
     
     public void createBookButton() {
@@ -112,80 +161,26 @@ public class HotelBookerFrame extends JFrame {
                 }
             }
     }
-//Creates the initial calendar as well as
-//updated calendars
-    public void setCenterPanel(DateAD today) {
-        if (centerPanel != null) {
-            getContentPane().remove(centerPanel);  
-        }
-        centerPanel = new JPanel();
-        centerPanel.setLayout(new GridLayout(6,7));
-        calendar = new BasicCalendar(today.getMonth(), today.getYear());
-        int daysInMonth = today.daysInMonth(today.getMonth(), today.getYear());
-        int index = 0;
-        //This loop finds the index to start the calendar's 
-        //first day
-        for (int i = 0; i <= 6; i++) {
-            if (calendar.at(0,i) == 1) {
-                index = i;
-                break;
-            }
-        }
-        //Creates the initial calendar based on today's date.
-        //Lays out the empty buttons and the buttons
-        //with text at the same time
-        for (int i = 0; i < daysInACalendar; i++) {
-            JButton calendarButton = new JButton();
-            calendarButton.setForeground(Color.BLUE);
-            if (i >= index && i < daysInMonth + index) {
-                calendarButton = new JButton("" + (i - index + 1));
-            }
-            centerPanel.add(calendarButton);
-                
-        }
-        add(centerPanel, BorderLayout.CENTER);
-        //I think this refreshes the changes to the frame
-        //after I remove centerPanel and build a new one
-        invalidate();
-        validate();
-       
-    }
-    
-    public void setRadioPanel() {
-        radioButtonPanel = new JPanel();
-        radioButtonPanel.setLayout(new FlowLayout());
-        radioArray = new JRadioButton[2];
-         for(int i = 0; i < 2; i++)
-             radioArray[i] = new JRadioButton();
-         radioArray[0].setText("Start Date: " + today.toString());
-         radioArray[0].setSelected(true);
-         radioArray[1].setText("End Date: " + today.toString());
-         group = new ButtonGroup();
-         for(int i = 0; i < 2; i++)  {
-            group.add(radioArray[i]);
-            radioButtonPanel.add(radioArray[i]);
-        }
-    }
 
 // instance variables
     JTextField nameTextField;
+    JPanel radioButtonPanel;
     JPanel northPanel;
     JPanel southPanel;
     JPanel buttonPanel;
+    JPanel centerPanel;
     JLabel dayLabel;
     JLabel enterLabel;
     JLabel nameLabel;
     JButton bookButton;
-    JPanel centerPanel;
+    ButtonGroup group;
     JComboBox monthComboBox;
     JComboBox yearComboBox;
     DateAD today;
     BasicCalendar calendar;
     String[] monthNames;
-    short monthShort;
-    PrintStream output;
     JRadioButton[] radioArray;
-    ButtonGroup group;
-    JPanel radioButtonPanel;
+    PrintStream output;
+  
     
 }
