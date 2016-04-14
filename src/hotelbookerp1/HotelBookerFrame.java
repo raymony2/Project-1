@@ -1,6 +1,9 @@
 /*  * HotelBookerFrame.java  */
 package hotelbookerp1;
-//aaaa
+
+// before every start: pull
+// after work: commit, push, go to github and pull request, merge
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
