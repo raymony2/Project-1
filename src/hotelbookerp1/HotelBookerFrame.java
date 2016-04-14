@@ -189,3 +189,72 @@ public class HotelBookerFrame extends JFrame {
     JPanel radioButtonPanel;
     
 }
+
+///**
+// * Cube Rooter
+// *
+// * a sample class which inputs a number <br>
+// * and writes its cube root to 3 places <br>
+// *
+// * @author Paul Bladek
+// * @version 1.0
+// *
+// *  Compiler: Java 1.6 <br>
+// *  OS: Windows 7 <br>
+// *  Hardware: PC <br>
+// *
+// * October 25 2010<br>
+// * PB completed v 1.0
+// */
+//public class CubeRooter 
+//{ 
+//    /**
+//     * Inputs a number
+//     * and writes its cube root to 3 places<br> 
+//     *
+//     * input: double numberInput from Scanner keyboard<br>
+//     * output: double cubeRoot (calculated cube root) to System<br>
+//     * 
+//     * @param args command-line arguments
+//     */
+//    public static void main(String[] args)
+//   {
+//        double numberInput = 0.0;
+//        double cubeRoot = 0.0;
+//        boolean isValidInput = true;
+//        Scanner keyboard = new Scanner(System.in);
+//
+//        System.out.println("Enter a number for cube rooting:");
+//
+//        try
+//        {
+//            numberInput = keyboard.nextDouble();
+//        }
+//        catch(Exception e)
+//        {
+//            System.out.println("Program requires NUMBER input");
+//            isValidInput = false;
+//        }
+//
+//        if(isValidInput)
+//        {
+//            cubeRoot = getCubeRoot(numberInput);
+//            System.out.printf("\n\tThe cube root of %.3f is %.3f\n", numberInput, cubeRoot);
+//        }
+//    } 
+//
+//    /**
+//     * returns the cube root of the number passed in
+//     * 
+//     * @param numberIn number input
+//     * @return the cube root of numberIn
+//     */
+//     public static double getCubeRoot(double numberIn)
+//    {
+//        if(numberIn >= 0)
+//              return Math.pow(numberIn, 1.0 / 3.0);
+//        else
+//              return -Math.pow(-numberIn, 1.0 / 3.0);
+//              // num to the 1/3 -- overcome the limitations of pow 
+//    }
+//}
