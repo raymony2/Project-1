@@ -1,6 +1,6 @@
 /*  * HotelBookerFrame.java  */
 package hotelbookerp1;
-//aaaaa
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
