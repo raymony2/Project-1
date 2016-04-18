@@ -3,6 +3,15 @@ package hotelbookerp1;
 
 // before every start: team -> remote -> pull so that master is merged onto [your name]
 // after work: team -> commit, team -> remote -> push, go to github and pull request, merge
+// things to work on:
+// Start date-
+// I try to change the month to before current month april 2016 -> march 2016: nothing happens since month is before current month
+// I change the month: it switches to same day april 21 2016 -> may 21 2016: change month + pass over day
+// if day doesn't exist: goes to last day of the switched month (March 31 -> Feb 28 since Feb 31 doesn't exist): change month + change day to last day
+// I change year when month already passed feb 2017 -> feb 2016: nothing happens since month is before current month
+// End date-
+// change year when month has already passed feb 2017 -> feb 2016: nothing happens since month is before current month
+// change month when day already passed: change month for april 23 2017 -> april 23 2016 when start day is april 25 2016, end day will automatically become april 26 2016
 
 import java.awt.*;
 import javax.swing.*;
@@ -20,9 +29,9 @@ import java.io.*;
  * @author Michael Ji & Raymon Yee
  * @version 1.0
  *
- *  Compiler: Java 1.6 <br>
- *  OS: OSX & Windows 7 <br>
- *  Hardware: PC <br>
+ * Compiler: Java 1.6 <br>
+ * OS: OSX & Windows 7 <br>
+ * Hardware: PC <br>
  *
  * April 25, 2016 <br>
  * PB completed v 1.0
@@ -36,17 +45,21 @@ public class HotelBookerFrame extends JFrame {
     private static final String enterName = "Enter your name:";
     private static final String buttonName = "Book it!";
     private static final int daysInACalendar = 42;
-    
+
+    private final String fileName = "src/hotelbookerp1/reservations.txt";
+
     /**
-     * allows the user to set up start and end dates for hotel reservations
-     * then will print it to a text document
-     * start date on calender
-     * end date on calender
+     * allows the user to set up start and end dates for hotel reservations then
+     * will print it to a text document start date on calender end date on
+     * calender
+     *
      * @param args the command line arguments
      * @throws java.lang.Exception
      */
     public static void main(String[] args) throws Exception {
         JFrame frame = new HotelBookerFrame();
+        frame.setSize(1000, 500);
+        frame.setLocationRelativeTo(null);
         PrintStream output = new PrintStream(new File("Bookings.txt"));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
@@ -61,22 +74,18 @@ public class HotelBookerFrame extends JFrame {
         today = new DateAD();
         setNorthPanel();
         add(northPanel, BorderLayout.NORTH);
-        
+
         setSouthPanel();
-        setRadioPanel();
-        radioButtonPanel.add(southPanel);
-        add(radioButtonPanel, BorderLayout.SOUTH);       
-         
-        
+        add(southPanel, BorderLayout.SOUTH);
+
         setCenterPanel();
-                        
-        
-        
+        add(centerPanel, BorderLayout.CENTER);
+
     }
 
     /**
-     * this is intended to be the north pane of the gui
-     * it has the labels to show the date on the calender
+     * this is intended to be the north pane of the gui it has the labels to
+     * show the date on the calender
      */
     public void setNorthPanel() {
         northPanel = new JPanel();
@@ -85,43 +94,45 @@ public class HotelBookerFrame extends JFrame {
         enterLabel = new JLabel(enterString);
         monthComboBox = new JComboBox(DateAD.MONTHNAMES);
         monthComboBox.setSelectedIndex(today.getMonth());
+        // yearComboBox = new JComboBox(Calendar)/////////////////////////////////////////////add year combobox
         northPanel.add(dayLabel);
         northPanel.add(monthComboBox);
+        northPanel.add(yearComboBox);
         northPanel.add(enterLabel);
-        
-        
+
+        //
         class changeStatusListener implements ActionListener {
+
             @Override
-            public void actionPerformed(ActionEvent event) {          
+            public void actionPerformed(ActionEvent event) {
                 int monthIndex = monthComboBox.getSelectedIndex();
                 String monthString = monthIndex + "";
                 short monthShort = Short.parseShort(monthString);
                 today.setMonth(monthShort);
                 setCenterPanel();
             }
-    }        
+        }
         monthComboBox.addActionListener(new changeStatusListener());
-    }                 
-    
-//Creates the initial and updated calendars
+    }
 
+//Creates the initial and updated calendars
     /**
-     * intended to be the center panel
-     * this is the calender of each month
+     * intended to be the center panel this is the calender of each month
      */
-        public void setCenterPanel() {
+    public void setCenterPanel() {
         if (centerPanel != null) {
-            getContentPane().remove(centerPanel);  
+            getContentPane().remove(centerPanel);
         }
         centerPanel = new JPanel();
-        centerPanel.setLayout(new GridLayout(6,7));
+        centerPanel.setLayout(new GridLayout(6, 7));
         calendar = new BasicCalendar(today.getMonth(), today.getYear());
         int daysInMonth = today.daysInMonth(today.getMonth(), today.getYear());
         int index = 0;
         //This loop finds the index for the grid calendar's 
         //first day
+
         for (int i = 0; i <= 6; i++) {
-            if (calendar.at(0,i) == 1) {
+            if (calendar.at(0, i) == 1) {
                 index = i;
                 break;
             }
@@ -135,7 +146,7 @@ public class HotelBookerFrame extends JFrame {
             if (i >= index && i < daysInMonth + index) {
                 calendarButton = new JButton("" + (i - index + 1));
             }
-            centerPanel.add(calendarButton);   
+            centerPanel.add(calendarButton);
         }
         add(centerPanel, BorderLayout.CENTER);
         //this refreshes the changes to the frame
@@ -143,63 +154,85 @@ public class HotelBookerFrame extends JFrame {
         //and add it to the Frame
         invalidate();
         validate();
-       
+
     }
-    
+
     /**
      * south panel for the name for the reservation
      */
-    public void setSouthPanel() {
-        southPanel = new JPanel();
-        southPanel.setLayout(new FlowLayout());
-        nameTextField = new JTextField();
-        nameTextField.setColumns(TEXT_WIDTH);
-        nameLabel = new JLabel(enterName);
-        southPanel.add(nameLabel);
-        southPanel.add(nameTextField);
-    }
+//    public void setSouthPanel() {
+//        southPanel = new JPanel();
+//        southPanel.setLayout(new FlowLayout());
+//
+//    }
     //makes radio buttons and their action listeners
-
     /**
      * is the pane for show the time of the reservations
      */
-        public void setRadioPanel() {
-        radioButtonPanel = new JPanel();
-        radioButtonPanel.setLayout(new FlowLayout());
+    public void setSouthPanel() {
+        southPanel = new JPanel();
+        southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.Y_AXIS));
+
         radioArray = new JRadioButton[2];
-         for(int i = 0; i < 2; i++)
-             radioArray[i] = new JRadioButton();
-         radioArray[0].setText("Start Date: " + today.toString());
-         radioArray[0].setSelected(true);
-         radioArray[1].setText("End Date: " + today.toString());
-         group = new ButtonGroup();
-         for(int i = 0; i < 2; i++)  {
-            group.add(radioArray[i]);
-            radioButtonPanel.add(radioArray[i]);
+        for (int i = 0; i < 2; i++) {
+            radioArray[i] = new JRadioButton();
         }
+        radioArray[0].setText("Start Date: " + today.toString());
+        radioArray[0].setSelected(true);
+        radioArray[1].setText("End Date: " + today.toString());
+        group = new ButtonGroup();
+        for (int i = 0; i < 2; i++) {
+            group.add(radioArray[i]);
+            southPanel.add(radioArray[i]);
+        }
+        nameTextField = new JTextField();
+        ////////////////////////////////////////////////////////////////////////////// center the buttons, shortern the textfield 
+        nameTextField.setColumns(60);
+        nameLabel = new JLabel(enterName);
+        southPanel.add(nameLabel);
+        southPanel.add(nameTextField);
+
     }
-    
+
+    /////////////////////////////////////////////////////////////////////////////////// create button
     /**
      * creates a button to book the reservation
      */
     public void createBookButton() {
-    bookButton = new JButton(buttonName);
-    southPanel.add(bookButton);
-        class changeStatusListener implements ActionListener
-        {
+        bookButton = new JButton(buttonName);
+        southPanel.add(bookButton);
+        //
+        class changeStatusListener implements ActionListener {
+
             /**
-            * When button is pressed, prints name, arrive date, and 
-            * departure date to an output file
-            * @param event the triggering event object
-            */
-        @Override
-        public void actionPerformed(ActionEvent event) {
-            if (event.getSource() == bookButton) {
-                
-                   }
+             * When button is pressed, prints name, arrive date, and departure
+             * date to an output file
+             *
+             * @param event the triggering event object
+             */
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                if (event.getSource() == bookButton) {
+
                 }
+                writeReservation(fileName);
             }
+        }
     }
+
+    public void writeReservation(String fileName) {
+        try {
+            FileWriter filePointer = new FileWriter(fileName, false);
+            PrintWriter output = new PrintWriter(filePointer);
+
+            //String line = "Name: " + tempReservation.getName() + ", Start: " + tempReservation.getStart() + ", End:" + tempReservation.getEndDate(); 
+            //output.println(line);
+            output.close();
+        } catch (IOException exp) {
+            exp.printStackTrace();
+        }
+    }
+    
 
 // instance variables
     JTextField nameTextField;
@@ -220,6 +253,5 @@ public class HotelBookerFrame extends JFrame {
     String[] monthNames;
     JRadioButton[] radioArray;
     PrintStream output;
-  
-    
+
 }
