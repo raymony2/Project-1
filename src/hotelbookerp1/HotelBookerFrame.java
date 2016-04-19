@@ -36,7 +36,7 @@ import java.io.*;
  * April 25, 2016 <br>
  * PB completed v 1.0
  */
-public class HotelBookerFrame extends JFrame {
+public class Hotelbooker extends JFrame {
 
     private static final int FRAME_WIDTH = 450;
     private static final int FRAME_HEIGHT = 300;
@@ -57,7 +57,7 @@ public class HotelBookerFrame extends JFrame {
      * @throws java.lang.Exception
      */
     public static void main(String[] args) throws Exception {
-        JFrame frame = new HotelBookerFrame();
+        JFrame frame = new Hotelbooker();
         frame.setSize(1000, 500);
         frame.setLocationRelativeTo(null);
         PrintStream output = new PrintStream(new File("Bookings.txt"));
@@ -68,7 +68,7 @@ public class HotelBookerFrame extends JFrame {
     /**
      * initializes the gui frame that the program will run off of
      */
-    public HotelBookerFrame() {
+    public Hotelbooker() {
         setLayout(new BorderLayout());
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
         today = new DateAD();
@@ -97,7 +97,7 @@ public class HotelBookerFrame extends JFrame {
         // yearComboBox = new JComboBox(Calendar)/////////////////////////////////////////////add year combobox
         northPanel.add(dayLabel);
         northPanel.add(monthComboBox);
-        northPanel.add(yearComboBox);
+      //  northPanel.add(yearComboBox);
         northPanel.add(enterLabel);
 
         //
@@ -124,13 +124,22 @@ public class HotelBookerFrame extends JFrame {
             getContentPane().remove(centerPanel);
         }
         centerPanel = new JPanel();
-        centerPanel.setLayout(new GridLayout(6, 7));
+        centerPanel.setLayout(new GridLayout(7, 7));
         calendar = new BasicCalendar(today.getMonth(), today.getYear());
         int daysInMonth = today.daysInMonth(today.getMonth(), today.getYear());
         int index = 0;
+       
         //This loop finds the index for the grid calendar's 
         //first day
-
+        String[] dayNames = {"Sunday", "Monday", "Tuesday", "Wednesday",
+                        "Thursday", "Friday", "Saturday"};
+        for (int i = 0; i <= 6; i++)
+        {
+            JLabel name = new JLabel(dayNames[i]);
+            centerPanel.add(name);
+            name.setHorizontalAlignment(JLabel.CENTER);
+            
+        }
         for (int i = 0; i <= 6; i++) {
             if (calendar.at(0, i) == 1) {
                 index = i;
@@ -171,7 +180,7 @@ public class HotelBookerFrame extends JFrame {
      */
     public void setSouthPanel() {
         southPanel = new JPanel();
-        southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.Y_AXIS));
+        southPanel.setLayout(new GridLayout(0, 2));
 
         radioArray = new JRadioButton[2];
         for (int i = 0; i < 2; i++) {
@@ -187,10 +196,11 @@ public class HotelBookerFrame extends JFrame {
         }
         nameTextField = new JTextField();
         ////////////////////////////////////////////////////////////////////////////// center the buttons, shortern the textfield 
-        nameTextField.setColumns(60);
+        nameTextField.setColumns(30);
         nameLabel = new JLabel(enterName);
         southPanel.add(nameLabel);
         southPanel.add(nameTextField);
+        
 
     }
 
