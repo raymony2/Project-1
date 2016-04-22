@@ -45,6 +45,7 @@ public class HotelBookerFrame extends JFrame {
     private static final String enterName = "Enter your name:";
     private static final String buttonName = "Book it!";
     private static final int daysInACalendar = 42;
+    private static final int yearsInComboBox = 10;
 
     private final String fileName = "src/hotelbookerp1/reservations.txt";
 
@@ -74,8 +75,8 @@ public class HotelBookerFrame extends JFrame {
         today = new DateAD();
         
         setNorthPanel();
-        makeYearComboBox();
         add(northPanel, BorderLayout.NORTH);
+        makeYearComboBox();
 
         setSouthPanel();
         add(southPanel, BorderLayout.SOUTH);
@@ -96,10 +97,8 @@ public class HotelBookerFrame extends JFrame {
         enterLabel = new JLabel(enterString);
         monthComboBox = new JComboBox(DateAD.MONTHNAMES);
         monthComboBox.setSelectedIndex(today.getMonth());
-        // yearComboBox = new JComboBox(Calendar)/////////////////////////////////////////////add year combobox
         northPanel.add(dayLabel);
         northPanel.add(monthComboBox);
-      //  northPanel.add(yearComboBox);
         northPanel.add(enterLabel);
 
         //
@@ -116,10 +115,28 @@ public class HotelBookerFrame extends JFrame {
         }
         monthComboBox.addActionListener(new changeStatusListener());
     }
-    //make the initial yearComboBox 
-   // public void makeYearComboBox() {
-  //      for (int i = 0; i < yearsInComboBox; i++)
- //       yearComboBox = new JComboBox()
+    // make the initial yearComboBox, rebuild the centerPanel
+    //after yearComboBox is changed.
+    public void makeYearComboBox() {
+        String[] yearArray = new String[yearsInComboBox - 1];
+        for (int i = 0; i < yearsInComboBox - 1; i++) {
+            yearArray[i] = ("" + i);
+        }
+        yearComboBox = new JComboBox(yearArray);
+        yearComboBox.setSelectedIndex(0);
+        northPanel.add(yearComboBox);
+            class changeStatusListener implements ActionListener {
+
+                @Override
+                public void actionPerformed(ActionEvent event) {
+                int yearIndex = yearComboBox.getSelectedIndex();
+                String yearString = yearIndex + "";
+                short yearShort = Short.parseShort(yearString);
+                today.setYear(yearShort);
+                setCenterPanel();
+            }
+        }
+        yearComboBox.addActionListener(new changeStatusListener());
     }
 
 //Creates the initial and updated calendars
@@ -263,7 +280,6 @@ public class HotelBookerFrame extends JFrame {
     ButtonGroup group;
     JComboBox monthComboBox;
     JComboBox yearComboBox;
-    int[] yearArray;
     DateAD today;
     BasicCalendar calendar;
     String[] monthNames;
