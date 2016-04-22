@@ -45,7 +45,7 @@ public class Hotelbooker extends JFrame {
     private static final String buttonName = "Book it!";
     private static final int daysInACalendar = 42;
 
-    private final String fileName = "src/hotelbookerp1/reservations.txt";
+    private static final String fileName = "src/hotelbookerp1/reservations.txt";
 
     /**
      * allows the user to set up start and end dates for hotel reservations then
@@ -256,7 +256,7 @@ public class Hotelbooker extends JFrame {
         }
     }
 
-    public void writeReservation(String fileName) {
+    public static void writeReservation(String fileName) {
         try {
             FileWriter filePointer = new FileWriter(fileName, false);
             PrintWriter output = new PrintWriter(filePointer);
