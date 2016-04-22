@@ -194,13 +194,17 @@ public class Hotelbooker extends JFrame {
         JLabel todayLabel;
         todayLabel = new JLabel("hi");
         todayPanel.add(todayLabel);
-
+        
         startButton = new JRadioButton();
         startButton.setText("Start Date: " + today.toString());
         startButton.setSelected(true);
 
         endButton = new JRadioButton();
         endButton.setText("End Date: " + today.toString());
+        
+        ButtonGroup group = new ButtonGroup();
+        group.add(startButton);
+        group.add(endButton);
 
         startPanel.add(startButton);
         endPanel.add(endButton);
