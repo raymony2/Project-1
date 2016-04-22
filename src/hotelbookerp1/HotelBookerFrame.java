@@ -36,7 +36,7 @@ import java.io.*;
  * April 25, 2016 <br>
  * PB completed v 1.0
  */
-public class Hotelbooker extends JFrame {
+public class HotelBookerFrame extends JFrame {
 
     private static final int FRAME_WIDTH = 450;
     private static final int FRAME_HEIGHT = 300;
@@ -68,11 +68,13 @@ public class Hotelbooker extends JFrame {
     /**
      * initializes the gui frame that the program will run off of
      */
-    public Hotelbooker() {
+    public HotelBookerFrame() {
         setLayout(new BorderLayout());
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
         today = new DateAD();
+        
         setNorthPanel();
+        makeYearComboBox();
         add(northPanel, BorderLayout.NORTH);
 
         setSouthPanel();
@@ -113,6 +115,11 @@ public class Hotelbooker extends JFrame {
             }
         }
         monthComboBox.addActionListener(new changeStatusListener());
+    }
+    //make the initial yearComboBox 
+   // public void makeYearComboBox() {
+  //      for (int i = 0; i < yearsInComboBox; i++)
+ //       yearComboBox = new JComboBox()
     }
 
 //Creates the initial and updated calendars
@@ -157,7 +164,6 @@ public class Hotelbooker extends JFrame {
             }
             centerPanel.add(calendarButton);
         }
-        add(centerPanel, BorderLayout.CENTER);
         //this refreshes the changes to the frame
         //after I remove centerPanel, build a new one,
         //and add it to the Frame
@@ -195,7 +201,6 @@ public class Hotelbooker extends JFrame {
             southPanel.add(radioArray[i]);
         }
         nameTextField = new JTextField();
-        ////////////////////////////////////////////////////////////////////////////// center the buttons, shortern the textfield 
         nameTextField.setColumns(30);
         nameLabel = new JLabel(enterName);
         southPanel.add(nameLabel);
@@ -258,6 +263,7 @@ public class Hotelbooker extends JFrame {
     ButtonGroup group;
     JComboBox monthComboBox;
     JComboBox yearComboBox;
+    int[] yearArray;
     DateAD today;
     BasicCalendar calendar;
     String[] monthNames;
