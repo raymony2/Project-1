@@ -60,7 +60,7 @@ public class HotelBookerFrame extends JFrame {
         JFrame frame = new HotelBookerFrame();
         frame.setSize(1000, 500);
         frame.setLocationRelativeTo(null);
-        PrintStream output = new PrintStream(new File("Bookings.txt"));
+//        PrintStream output = new PrintStream(new File("Bookings.txt"));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
@@ -74,14 +74,14 @@ public class HotelBookerFrame extends JFrame {
         today = new DateAD();
 
         setNorthPanel();
-        
+
         add(northPanel, BorderLayout.NORTH);
         makeYearComboBox();
         northPanel.add(yearComboBox);
-        
 
         setSouthPanel();
         add(southPanel, BorderLayout.SOUTH);
+        createBookButton();
 
         setCenterPanel();
 
@@ -133,7 +133,7 @@ public class HotelBookerFrame extends JFrame {
             public void actionPerformed(ActionEvent event) {
                 String yearIndex = "" + yearComboBox.getSelectedIndex();
                 short indexShort = Short.parseShort(yearIndex);
-                short yearShort = (short)(today.getYear() + indexShort);
+                short yearShort = (short) (today.getYear() + indexShort);
                 today.setYear(yearShort);
                 setCenterPanel();
             }
@@ -187,9 +187,8 @@ public class HotelBookerFrame extends JFrame {
         dateButtons.add(calendarButton);
 
 // make calenderbutton set to today by default
-
         if (startButton.isSelected()) {
-            
+
 //            if (calendarButton.isSelected()) {      if a calender button is selected
 //                startButton.setText("Start Date: " + calendarButton.isSelected().toString());
 //                System.out.println(calendarButton.isSelected());
@@ -265,8 +264,8 @@ public class HotelBookerFrame extends JFrame {
      */
     public void createBookButton() {
         bookButton = new JButton(buttonName);
-        southPanel.add(bookButton);
-        //
+        namePanel.add(bookButton);
+        
         class changeStatusListener implements ActionListener {
 
             /**
@@ -277,26 +276,26 @@ public class HotelBookerFrame extends JFrame {
              */
             @Override
             public void actionPerformed(ActionEvent event) {
-                if (event.getSource() == bookButton) {
-
-                }
                 writeReservation(fileName);
             }
         }
+        bookButton.addActionListener(new changeStatusListener());
     }
 
     public void writeReservation(String fileName) {
         try {
-            FileWriter filePointer = new FileWriter(fileName, false);
+            FileWriter filePointer = new FileWriter(fileName, true);
             PrintWriter output = new PrintWriter(filePointer);
 
             //String line = "Name: " + tempReservation.getName() + ", Start: " + tempReservation.getStart() + ", End:" + tempReservation.getEndDate(); 
             //output.println(line);
+            String line = nameTextField.getText() + " K";
+            output.println(line);
             output.close();
         } catch (IOException exp) {
             exp.printStackTrace();
         }
-       }
+    }
 
 // instance variables
     JTextField nameTextField;
