@@ -117,7 +117,6 @@ public class HotelBookerFrame extends JFrame {
 
     // make the initial yearComboBox, rebuild the centerPanel
     //after yearComboBox is changed.
-
     public void makeYearComboBox() {
         String[] yearArray = new String[yearsInComboBox - 1];
         for (int i = 0; i < yearsInComboBox - 1; i++) {
@@ -175,12 +174,26 @@ public class HotelBookerFrame extends JFrame {
         //with text at the same time
         for (int i = 0; i < daysInACalendar; i++) {
             JButton calendarButton = new JButton();
+
             calendarButton.setForeground(Color.BLUE);
             if (i >= index && i < daysInMonth + index) {
                 calendarButton = new JButton("" + (i - index + 1));
             }
             centerPanel.add(calendarButton);
         }
+        ButtonGroup dateButtons = new ButtonGroup();
+        dateButtons.add(calendarButton);
+
+// make calenderbutton set to today by default
+
+        if (startButton.isSelected()) {
+            
+//            if (calendarButton.isSelected()) {      if a calender button is selected
+//                startButton.setText("Start Date: " + calendarButton.isSelected().toString());
+//                System.out.println(calendarButton.isSelected());
+//            }
+        }
+
         //this refreshes the changes to the frame
         //after I remove centerPanel, build a new one,
         //and add it to the Frame
@@ -218,15 +231,16 @@ public class HotelBookerFrame extends JFrame {
         southPanel.add(namePanel);
 
         JLabel todayLabel;
-        todayLabel = new JLabel("hi");
+        todayLabel = new JLabel("Today: " + today.toString());
         todayPanel.add(todayLabel);
 
         startButton = new JRadioButton();
-        startButton.setText("Start Date: " + today.toString());
+
         startButton.setSelected(true);
+        startButton.setText("Start Date: " + today.toString());
 
         endButton = new JRadioButton();
-        endButton.setText("End Date: " + today.toString());
+        endButton.setText("End Date: " + today.getTomorrow().toString());
 
         ButtonGroup group = new ButtonGroup();
         group.add(startButton);
@@ -240,7 +254,6 @@ public class HotelBookerFrame extends JFrame {
         nameLabel = new JLabel(enterName);
         namePanel.add(nameLabel);
         namePanel.add(nameTextField);
-
     }
 
     /////////////////////////////////////////////////////////////////////////////////// create button
@@ -310,4 +323,7 @@ public class HotelBookerFrame extends JFrame {
     JRadioButton startButton;
     JRadioButton endButton;
 
+    JRadioButton calendarButton;
+    DateAD startDate;
+    DateAD endDate;
 }
