@@ -131,9 +131,8 @@ public class HotelBookerFrame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent event) {
-                String yearIndex = "" + yearComboBox.getSelectedIndex();
-                short indexShort = Short.parseShort(yearIndex);
-                short yearShort = (short)(today.getYear() + indexShort);
+                String yearIndex = (String) yearComboBox.getSelectedItem();
+                short yearShort = Short.parseShort(yearIndex);
                 today.setYear(yearShort);
                 setCenterPanel();
             }
@@ -176,7 +175,6 @@ public class HotelBookerFrame extends JFrame {
         //with text at the same time
         for (int i = 0; i < daysInACalendar; i++) {
             JButton calendarButton = new JButton();
-
             calendarButton.setForeground(Color.BLUE);
             if (i >= index && i < daysInMonth + index) {
                 calendarButton = new JButton("" + (i - index + 1));
@@ -329,4 +327,5 @@ public class HotelBookerFrame extends JFrame {
     JRadioButton calendarButton;
     DateAD startDate;
     DateAD endDate;
+    
 }
