@@ -74,14 +74,16 @@ public class HotelBookerFrame extends JFrame {
         today = new DateAD();
 
         setNorthPanel();
+        
         add(northPanel, BorderLayout.NORTH);
         makeYearComboBox();
+        northPanel.add(yearComboBox);
+        
 
         setSouthPanel();
         add(southPanel, BorderLayout.SOUTH);
 
         setCenterPanel();
-        add(centerPanel, BorderLayout.CENTER);
 
     }
 
@@ -118,20 +120,20 @@ public class HotelBookerFrame extends JFrame {
     // make the initial yearComboBox, rebuild the centerPanel
     //after yearComboBox is changed.
     public void makeYearComboBox() {
-        String[] yearArray = new String[yearsInComboBox - 1];
-        for (int i = 0; i < yearsInComboBox - 1; i++) {
-            yearArray[i] = ("" + i);
+        String[] yearArray = new String[yearsInComboBox];
+        for (int i = 0; i < yearsInComboBox; i++) {
+            String yearString = "" + (today.getYear() + i);
+            yearArray[i] = (yearString);
         }
         yearComboBox = new JComboBox(yearArray);
         yearComboBox.setSelectedIndex(0);
-        northPanel.add(yearComboBox);
         class changeStatusListener implements ActionListener {
 
             @Override
             public void actionPerformed(ActionEvent event) {
-                int yearIndex = yearComboBox.getSelectedIndex();
-                String yearString = yearIndex + "";
-                short yearShort = Short.parseShort(yearString);
+                String yearIndex = "" + yearComboBox.getSelectedIndex();
+                short indexShort = Short.parseShort(yearIndex);
+                short yearShort = (short)(today.getYear() + indexShort);
                 today.setYear(yearShort);
                 setCenterPanel();
             }
@@ -194,6 +196,7 @@ public class HotelBookerFrame extends JFrame {
 //            }
         }
 
+        add(centerPanel, BorderLayout.CENTER);
         //this refreshes the changes to the frame
         //after I remove centerPanel, build a new one,
         //and add it to the Frame
@@ -293,7 +296,7 @@ public class HotelBookerFrame extends JFrame {
         } catch (IOException exp) {
             exp.printStackTrace();
         }
-    }
+       }
 
 // instance variables
     JTextField nameTextField;
