@@ -152,8 +152,7 @@ public class HotelBookerFrame extends JFrame {
         centerPanel.setLayout(new GridLayout(7, 7));
         calendar = new BasicCalendar(today.getMonth(), today.getYear());
         int daysInMonth = today.daysInMonth(today.getMonth(), today.getYear());
-        int index = 0;
-
+        int firstDayOfMonth = 0;
         //This loop finds the index for the grid calendar's 
         //first day
         String[] dayNames = {"Sunday", "Monday", "Tuesday", "Wednesday",
@@ -162,38 +161,18 @@ public class HotelBookerFrame extends JFrame {
             JLabel name = new JLabel(dayNames[i]);
             centerPanel.add(name);
             name.setHorizontalAlignment(JLabel.CENTER);
-
         }
         for (int i = 0; i <= 6; i++) {
             if (calendar.at(0, i) == 1) {
-                index = i;
+                firstDayOfMonth = i;
                 break;
             }
-        }
+        }    
         //Creates the calendar based on today's date.
         //Lays out the empty buttons and the buttons
         //with text at the same time
-        for (int i = 0; i < daysInACalendar; i++) {
-            JButton calendarButton = new JButton();
-
-            calendarButton.setForeground(Color.BLUE);
-            if (i >= index && i < daysInMonth + index) {
-                calendarButton = new JButton("" + (i - index + 1));
-            }
-            centerPanel.add(calendarButton);
-        }
-        ButtonGroup dateButtons = new ButtonGroup();
-        dateButtons.add(calendarButton);
-
-// make calenderbutton set to today by default
-        if (startButton.isSelected()) {
-
-//            if (calendarButton.isSelected()) {      if a calender button is selected
-//                startButton.setText("Start Date: " + calendarButton.isSelected().toString());
-//                System.out.println(calendarButton.isSelected());
-//            }
-        }
-
+        //JBUTTON LOGIC HERE
+        makeCalendar(daysInMonth, firstDayOfMonth);
         add(centerPanel, BorderLayout.CENTER);
         //this refreshes the changes to the frame
         //after I remove centerPanel, build a new one,
@@ -201,6 +180,61 @@ public class HotelBookerFrame extends JFrame {
         invalidate();
         validate();
 
+    }
+    //Separate method because the logic here is gonna be long  
+    public void makeCalendar(int daysInMonth, int firstDayOfMonth) {
+        class changeStatusListener implements ActionListener {
+             
+            @Override
+            public void actionPerformed(ActionEvent event) {
+            JButton pressedButton = (JButton) event.getSource(); 
+            if (pressedButton.getText() != null && !pressedButton.getText().isEmpty()) {
+                int buttonValue = Integer.parseInt(pressedButton.getText());
+                if (todaysMonth != today.getMonth() || todaysYear != today.getYear()) {              
+                startJButton.setForeground(Color.BLACK);              
+                pressedButton.setForeground(Color.RED);   
+                startJButton = pressedButton;
+                }
+            else if (buttonValue >= today.getDayOfMonth()) {                                 
+                startJButton.setForeground(Color.BLACK);              
+                pressedButton.setForeground(Color.RED);   
+                startJButton = pressedButton;          
+                    }
+                }
+            }
+        }
+            
+        for (int i = 0; i < daysInACalendar; i++) {
+            short currentDayOfMonth = today.getDayOfMonth();
+            JButton calendarButton = new JButton();
+            calendarButton.setForeground(Color.BLUE);
+            if (i >= firstDayOfMonth && i < daysInMonth + firstDayOfMonth) {
+                calendarButton = new JButton("" + (i - firstDayOfMonth + 1));
+                calendarButton.setForeground(Color.BLACK);
+                if ( i < currentDayOfMonth + firstDayOfMonth - 1
+                 && todaysYear == today.getYear() && todaysMonth == today.getMonth()) {               
+                calendarButton.setForeground(Color.GRAY);
+                }
+            }
+            if ( i == firstDayOfMonth + currentDayOfMonth - 1) {
+                startJButton = calendarButton;
+                calendarButton.setForeground(Color.RED);
+            }
+            calendarButton.addActionListener(new changeStatusListener());
+            centerPanel.add(calendarButton);
+        
+        ButtonGroup dateButtons = new ButtonGroup();
+        dateButtons.add(calendarButton);
+        }
+// make calenderbutton set to today by default
+        if (startButton.isSelected()) {
+
+//            if (calendarButton.isSelected()) {      if a calender button is selected
+//                startButton.setText("Start Date: " + calendarButton.isSelected().toString());
+//                System.out.println(calendarButton.isSelected());
+//            }
+        } 
+        
     }
 
     /**
@@ -327,4 +361,8 @@ public class HotelBookerFrame extends JFrame {
     JRadioButton calendarButton;
     DateAD startDate;
     DateAD endDate;
+    
+    short todaysMonth;
+    short todaysYear;
+    JButton startJButton;
 }
