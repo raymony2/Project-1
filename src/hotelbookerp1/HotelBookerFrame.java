@@ -175,7 +175,6 @@ public class HotelBookerFrame extends JFrame {
         //with text at the same time
         for (int i = 0; i < daysInACalendar; i++) {
             JButton calendarButton = new JButton();
-
             calendarButton.setForeground(Color.BLUE);
             if (i >= index && i < daysInMonth + index) {
                 calendarButton = new JButton("" + (i - index + 1));
@@ -327,4 +326,5 @@ public class HotelBookerFrame extends JFrame {
     JRadioButton calendarButton;
     DateAD startDate;
     DateAD endDate;
+    
 }
