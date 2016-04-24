@@ -1,8 +1,8 @@
 /*  * HotelBookerFrame.java  */
 package hotelbookerp1;
 
-// before every start: team -> remote -> pull so that master is merged onto [your name]
-// after work: team -> commit, team -> remote -> push, go to github and pull request, merge
+// before every start: team -> remote -> PULL so that master is merged onto [your name]
+// after work: team -> COMMIT, team -> remote -> PUSH, go to github and pull request to MERGE, then PULL
 // things to work on:
 // Start date-
 // I try to change the month to before current month april 2016 -> march 2016: nothing happens since month is before current month
@@ -131,9 +131,8 @@ public class HotelBookerFrame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent event) {
-                String yearIndex = "" + yearComboBox.getSelectedIndex();
-                short indexShort = Short.parseShort(yearIndex);
-                short yearShort = (short) (today.getYear() + indexShort);
+                String yearIndex = (String) yearComboBox.getSelectedItem();
+                short yearShort = Short.parseShort(yearIndex);
                 today.setYear(yearShort);
                 setCenterPanel();
             }
@@ -265,7 +264,7 @@ public class HotelBookerFrame extends JFrame {
     public void createBookButton() {
         bookButton = new JButton(buttonName);
         namePanel.add(bookButton);
-        
+
         class changeStatusListener implements ActionListener {
 
             /**
